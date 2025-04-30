@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Daily Lesson Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px; /* Increased max width for the table */
+            margin: 0 auto; /* Center the container */
+            background-color: #ffffff; /* White background for the report */
+            padding: 30px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            overflow-x: auto; /* Add horizontal scroll if table is too wide */
+        }
+        h1, h2, h3 {
+            color: #1f2937; /* Dark gray text */
+        }
+        h1 {
+            font-size: 2rem; /* Main title size */
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        h2 {
+            font-size: 1.5rem; /* Subtitle size */
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 1.25rem; /* Section title size */
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb; /* Bottom border for sections */
+            padding-bottom: 5px;
+        }
+         hr {
+            margin: 30px 0;
+            border-top: 1px solid #d1d5db; /* Light gray horizontal rule */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="month"],
+        .form-group select,
+         .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #4b5563;
+            box-sizing: border-box;
+        }
+         .grid-cols-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+         .grid-cols-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid-cols-2, .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Table Styling */
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse; /* Remove space between borders */
+            margin-top: 20px;
+        }
+        .progress-table th,
+        .progress-table td {
+            border: 1px solid #e5e7eb; /* Light gray border for cells */
+            padding: 10px;
+            text-align: left;
+            vertical-align: top; /* Align content to the top */
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        .progress-table th {
+            background-color: #f9fafb; /* Very light gray background for headers */
+            font-weight: 600;
+            position: sticky; /* Make header row sticky */
+            top: 0;
+            z-index: 1; /* Ensure header is above scrolling content */
+        }
+         .progress-table tbody tr:nth-child(even) {
+            background-color: #f3f4f6; /* Zebra striping for rows */
+        }
+        .progress-table input[type="text"],
+        .progress-table select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 0.9rem;
+             box-sizing: border-box; /* Include padding and border in element's total width */
+        }
+         .progress-table td {
+             min-width: 120px; /* Minimum width for data cells */
+         }
+         .progress-table td:first-child {
+             min-width: 80px; /* Smaller minimum width for date column */
+             font-weight: 600;
+             text-align: center;
+         }
+          .progress-table td:nth-child(2) {
+             min-width: 100px; /* Minimum width for attendance column */
+         }
+          .progress-table th:first-child {
+             position: sticky; /* Make date column sticky */
+             left: 0;
+             z-index: 2; /* Ensure date column is above scrolling content */
+             background-color: #f9fafb; /* Match header background */
+         }
+         .progress-table td:first-child {
+             position: sticky; /* Make date column sticky */
+             left: 0;
+             z-index: 1; /* Ensure date column is above scrolling content */
+             background-color: #ffffff; /* Match row background */
+         }
+          .progress-table tbody tr:nth-child(even) td:first-child {
+             background-color: #f3f4f6; /* Match zebra striping for sticky column */
+         }
+
+
+         /* Styling for textarea in table */
+         .progress-table textarea {
+             width: 100%;
+             min-height: 60px; /* Smaller height for textarea in table */
+             padding: 5px;
+             border: 1px solid #d1d5db;
+             border-radius: 3px;
+             font-size: 0.9rem;
+             box-sizing: border-box;
+             resize: vertical;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AL ASAR ISLAMIC INSTITUTE</h1>
+        <h2>Monthly Daily Lesson Sheet</h2>
+
+        <hr>
+
+        <h3>Part 1: Basic Information</h3>
+        <div class="grid-cols-3">
+            <div class="form-group">
+                <label for="month-year">Month/Year:</label>
+                <input type="month" id="month-year">
+            </div>
+            <div class="form-group">
+                <label for="student-name">Student Name:</label>
+                <input type="text" id="student-name">
+            </div>
+            <div class="form-group">
+                <label for="teacher-name">Teacher Name:</label>
+                <input type="text" id="teacher-name">
+            </div>
+        </div>
+         <div class="grid-cols-2">
+             <div class="form-group">
+                <label for="class-level">Class/Level:</label>
+                <input type="text" id="class-level">
+            </div>
+              <div class="form-group">
+                <label for="total-classes-month">Total Classes Held This Month:</label>
+                <input type="number" id="total-classes-month">
+            </div>
+         </div>
+
+        <hr>
+
+        <h3>Part 2: Daily Progress Entries</h3>
+
+        <table class="progress-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Attendance</th>
+                    <th>Qaida</th>
+                    <th>Quran (Nazra)</th>
+                    <th>Hifz</th>
+                    <th>Kalmas</th>
+                    <th>Namaz</th>
+                    <th>Duas</th>
+                    <th>Hadith</th>
+                    <th>Islamic Studies / Manners</th>
+                    <th>Homework</th>
+                    <th>Teacher's Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Day 1</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Day 2</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 3</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 4</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 5</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 6</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 7</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 8</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 9</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 10</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 11</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 12</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 13</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 14</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 15</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 16</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 17</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 18</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 19</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 20</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 21</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 22</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 23</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 24</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 25</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 26</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 27</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 28</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 29</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 30</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+                 <tr>
+                    <td>Day 31</td>
+                    <td>
+                        <select>
+                            <option value="present">P</option>
+                            <option value="absent">A</option>
+                            <option value="leave">L</option>
+                            <option value="holiday">H</option>
+                        </select>
+                    </td>
+                    <td><textarea placeholder="Qaida details"></textarea></td>
+                    <td><textarea placeholder="Quran details"></textarea></td>
+                    <td><textarea placeholder="Hifz details"></textarea></td>
+                    <td><textarea placeholder="Kalmas details"></textarea></td>
+                    <td><textarea placeholder="Namaz details"></textarea></td>
+                    <td><textarea placeholder="Duas details"></textarea></td>
+                    <td><textarea placeholder="Hadith details"></textarea></td>
+                    <td><textarea placeholder="Islamic Studies details"></textarea></td>
+                    <td><textarea placeholder="Homework"></textarea></td>
+                    <td><textarea placeholder="Remarks"></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+         <p class="note mt-4">*(This table includes rows for all 31 days of the month.)*</p>
+
+
+        <hr>
+
+        <h3>Part 3: Monthly Summary & Goals</h3>
+
+        <div class="form-group">
+            <label for="monthly-overall-summary">Overall Monthly Performance Summary:</label>
+            <textarea id="monthly-overall-summary" placeholder="Summarize the student's progress over the month"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="monthly-goals">Goals for Next Month:</label>
+            <textarea id="monthly-goals" placeholder="Set specific goals for the upcoming month"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="monthly-suggestions-parents">Suggestions for Parents:</label>
+            <textarea id="monthly-suggestions-parents" placeholder="Provide suggestions or feedback for parents"></textarea>
+        </div>
+
+        <hr>
+
+        <h3>Part 4: Formalities</h3>
+        <div class="grid-cols-2">
+             <div class="form-group">
+                <label for="teacher-signature-month">Teacher's Signature/Name:</label>
+                <input type="text" id="teacher-signature-month">
+            </div>
+             <div class="form-group">
+                <label for="parent-signature-month">(Optional) Parent's Signature:</label>
+                <input type="text" id="parent-signature-month">
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
